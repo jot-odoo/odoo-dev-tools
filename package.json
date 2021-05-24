@@ -1,5 +1,6 @@
 {
     "name": "odoo-dev-tools",
+    "publisher": "jot-odoo",
     "displayName": "Odoo Dev Tools",
     "description": "",
     "version": "0.0.1",
@@ -9,17 +10,115 @@
     "categories": [
         "Other"
     ],
+    "keywords": [
+        "Odoo"
+    ],
     "activationEvents": [
-        "onCommand:odoo-dev-tools.helloWorld"
+        "onCommand:odoo-dev-tools.getVersion",
+        "onView:modules",
+        "onView:models"
     ],
     "main": "./out/extension.js",
     "contributes": {
         "commands": [
             {
-                "command": "odoo-dev-tools.helloWorld",
-                "title": "Hello World"
+                "command": "odoo-dev-tools.getVersion",
+                "title": "Get Odoo Version"
+            },
+            {
+                "command": "modules.refreshEntry",
+                "title": "Refresh",
+                "icon": {
+                    "light": "resources/light/refresh.svg",
+                    "dark": "resources/dark/refresh.svg"
+                }
+            },
+            {
+                "command": "models.refreshEntry",
+                "title": "Refresh",
+                "icon": {
+                    "light": "resources/light/refresh.svg",
+                    "dark": "resources/dark/refresh.svg"
+                }
             }
-        ]
+        ],
+        "configuration": {
+            "title": "Odoo Dev Tools",
+            "properties": {
+                "odoo-dev-tools.binary.path": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Specifies the path where odoo-bin is located."
+                },
+                "odoo-dev-tools.binary.enterprise": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Specifies the path where the enterprise addons are located."
+                },
+                "odoo-dev-tools.custom.addons": {
+                    "type": "array",
+                    "default": [
+                        ""
+                    ],
+                    "description": "Specifies any additional addon folders. The workspaceRoot is included by default."
+                },
+                "odoo-dev-tools.server.url": {
+                    "type": "string",
+                    "default": "https://localhost:8069",
+                    "description": "URL of the Odoo server."
+                },
+                "odoo-dev-tools.server.database": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Name of the database to use."
+                },
+                "odoo-dev-tools.server.username": {
+                    "type": "string",
+                    "default": "admin",
+                    "description": "Username to use to log into Odoo."
+                },
+                "odoo-dev-tools.server.password": {
+                    "type": "string",
+                    "default": "admin",
+                    "description": "Password."
+                }
+            }
+        },
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "odoo-explorer",
+                    "title": "Odoo Explorer",
+                    "icon": "static/odoo_logo.svg"
+                }
+            ]
+        },
+        "views": {
+            "odoo-explorer": [
+                {
+                    "id": "modules",
+                    "name": "Modules"
+                },
+                {
+                    "id": "models",
+                    "name": "Models"
+                }
+            ]
+        },
+        "menus": {
+            "view/title": [
+                {
+                    "command": "modules.refreshEntry",
+                    "when": "view == modules",
+                    "group": "navigation"
+                },
+                {
+                    "command": "models.refreshEntry",
+                    "when": "view == models",
+                    "group": "navigation"
+                }
+            ]
+        }
     },
     "scripts": {
         "vscode:prepublish": "yarn run compile",
@@ -30,16 +129,20 @@
         "test": "node ./out/test/runTest.js"
     },
     "devDependencies": {
-        "@types/vscode": "^1.56.0",
         "@types/glob": "^7.1.3",
         "@types/mocha": "^8.0.4",
         "@types/node": "^12.11.7",
-        "eslint": "^7.19.0",
+        "@types/vscode": "^1.56.0",
         "@typescript-eslint/eslint-plugin": "^4.14.1",
         "@typescript-eslint/parser": "^4.14.1",
+        "eslint": "^7.19.0",
         "glob": "^7.1.6",
         "mocha": "^8.2.1",
         "typescript": "^4.1.3",
         "vscode-test": "^1.5.0"
+    },
+    "dependencies": {
+        "@types/xmlrpc": "^1.3.6",
+        "xmlrpc": "^1.3.2"
     }
 }

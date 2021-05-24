@@ -1,27 +1,45 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import { getOdooVersion } from './commands';
+import { Config } from './odoo/api';
+import Odoo from './odoo';
+import { ModuleProvider } from './views/module_tree';
+import { ModelProvider } from './views/model_tree';
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "odoo-dev-tools" is now active!');
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('odoo-dev-tools.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from Odoo Dev Tools!');
-	});
-
-	context.subscriptions.push(disposable);
+    const config: Config = {
+        url: vscode.workspace
+            .getConfiguration('odoo-dev-tools')
+            .get('server.url') as string,
+        username: vscode.workspace
+            .getConfiguration('odoo-dev-tools')
+            .get('server.username') as string,
+        password: vscode.workspace
+            .getConfiguration('odoo-dev-tools')
+            .get('server.password') as string,
+        db: vscode.workspace
+            .getConfiguration('odoo-dev-tools')
+            .get('server.database') as string,
+    };
+    const client = new Odoo(config);
+    context.subscriptions.push(
+        vscode.commands.registerCommand('odoo-dev-tools.getVersion', () =>
+            getOdooVersion(client)
+        )
+    );
+    const moduleProvider = new ModuleProvider(client);
+    vscode.window.registerTreeDataProvider('modules', moduleProvider);
+    context.subscriptions.push(
+        vscode.commands.registerCommand('modules.refreshEntry', () =>
+            moduleProvider.refresh()
+        )
+    );
+    const modelProvider = new ModelProvider(client);
+    vscode.window.registerTreeDataProvider('models', modelProvider);
+    context.subscriptions.push(
+        vscode.commands.registerCommand('models.refreshEntry', () =>
+            modelProvider.refresh()
+        )
+    );
 }
 
-// this method is called when your extension is deactivated
 export function deactivate() {}
