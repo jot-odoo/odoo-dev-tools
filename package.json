@@ -122,10 +122,10 @@
     },
     "scripts": {
         "vscode:prepublish": "yarn run compile",
-        "compile": "./node_modules/typescript/bin/tsc -p ./",
-        "watch": "./node_modules/typescript/bin/tsc -watch -p ./",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
         "pretest": "yarn run compile && yarn run lint",
-        "lint": "./node_modules/eslint/bin/eslint.js src --ext ts",
+        "lint": "eslint src --ext ts",
         "test": "node ./out/test/runTest.js"
     },
     "devDependencies": {
