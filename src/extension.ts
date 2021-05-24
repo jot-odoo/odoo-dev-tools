@@ -1,9 +1,9 @@
 import * as vscode from 'vscode';
 import { getOdooVersion } from './commands';
-import { Config } from './odoo/api';
 import Odoo from './odoo';
 import { ModuleProvider } from './views/module_tree';
 import { ModelProvider } from './views/model_tree';
+import { Config } from './odoo/types';
 
 export function activate(context: vscode.ExtensionContext) {
     const config: Config = {
