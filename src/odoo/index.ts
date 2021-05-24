@@ -123,7 +123,6 @@ class Odoo {
             }
         )) as Model[];
         models.sort((a, b) => (a.model > b.model ? 1 : -1));
-        console.log(models);
         const modelGroups: { [key: string]: Model[] } = {};
         models.forEach((model) => {
             model.level = 'model';
@@ -143,7 +142,6 @@ class Odoo {
                 models: val[1],
             })
         );
-        console.log(model_groups);
         return model_groups;
     }
     async getFieldsByModel(model: string) {
@@ -200,7 +198,6 @@ class Odoo {
             }
         )) as Selection[];
         results.forEach((el) => (el.level = 'selection'));
-        console.log(results);
         return results;
     }
 }
