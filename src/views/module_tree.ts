@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
-import Odoo, { Module } from '../odoo';
+import Odoo from '../odoo';
+import { Module } from '../odoo/types';
 
 export class ModuleProvider implements vscode.TreeDataProvider<Module> {
     client: Odoo;

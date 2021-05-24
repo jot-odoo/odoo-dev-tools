@@ -1,16 +1,6 @@
 import * as xmlrpc from 'xmlrpc';
 import { URL } from 'url';
-
-export type Config = {
-    url: string;
-    username: string;
-    password: string;
-    db: string;
-};
-
-type Version = {
-    server_version: string;
-};
+import { Config, Version } from './types';
 
 class Odoo_API {
     url: string;

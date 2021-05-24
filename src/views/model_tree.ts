@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
-import Odoo, { Field, Model, ModelGroup, Selection } from '../odoo';
+import Odoo from '../odoo';
+import { Field, Model, ModelGroup, Selection } from '../odoo/types';
 
 type Item = Field | Model | ModelGroup | Selection;
 
